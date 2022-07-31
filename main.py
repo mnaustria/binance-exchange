@@ -5,6 +5,7 @@ import requests
 import pandas as pd
 from prometheus_client import start_http_server, Gauge
 
+
 class Client:
 
     API_URL = 'https://api.binance.com'
@@ -56,8 +57,8 @@ class Client:
             payload = {'symbol': symbol}
             response = requests.get(self.API_URL + uri, params=payload)
             price_spread = response.json()
-            spread_list[symbol] = float(price_spread['askPrice']) - \
-                float(price_spread['bidPrice'])
+            spread_list[symbol] = float(
+                price_spread['askPrice']) - float(price_spread['bidPrice'])
 
         return spread_list
 
@@ -83,13 +84,13 @@ if __name__ == "__main__":
 
     print("\n1. Print the top 5 symbols with quote asset BTC and the highest volume over the last 24 hours in descending order.")
     print(client.get_symbols('BTC', 'volume'))
-    
+
     print("\n2.  Print the top 5 symbols with quote asset USDT and the highest number of trades over the last 24 hours in descending order.")
     print(client.get_symbols('USDT', 'count'))
-    
+
     print("\n3. Using the symbols from Q1, what is the total notional value of the top 200 bids and asks currently on each order book?")
     print(client.get_notional_value('BTC', 'volume'))
-    
+
     print("\n4. What is the price spread for each of the symbols from Q2")
     print(client.get_price_spread('USDT', 'count'))
 
